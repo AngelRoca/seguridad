@@ -13,11 +13,12 @@
       <h1>Registro...</h1>
       <div class="wrap">
         <form action="functions.php" method="post">
-          <input type="text" name="usuario" placeholder="Nombre de Usuario">
-          <input type="password" name"password" placeholder="Contraseña">
+          <input type="hidden" value="registro" name="form">
+          <input type="text" name="user" placeholder="Nombre de Usuario">
+          <input type="password" name="pass" placeholder="Contraseña">
           <input type="text" name="secreto" placeholder="Tu Secreto">
           <input type="text" name="key" placeholder="Tu Llave">
-          <button type="button" class="btn btn-lg btn-info">Enviar</button>
+          <input type="submit" class="btn btn-lg btn-info" value="Enviar">
         </form>
       </div>
     </div> 

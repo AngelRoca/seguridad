@@ -1,36 +1,44 @@
 <?php 
+session_start();
+ini_set('display_errors', '1');
+require_once "conexion.php";
+  $c=new conexion();
 
-
-
-  // Funcion de encriptacion simetrica
-  function encriptar($secreto,$llave){
-    $hash=sha1($llave);
-    $final="";
-
-    for($i=0;$i<strlen($secreto);$i++){
-      $a=$secreto[$i];
-      $b=$hash[$i];
-      $num1=ord($a);
-      $num2=ord($b);
-      $sum=$num1+$num2;
-      $sum*=$num2;
-      $final.=$sum." ";
+  switch ($_REQUEST["form"]) {
+    case 'login':
+    $var=$c->login($_REQUEST["user"],$_REQUEST["pass"]);
+    if($var!=null){
+      $_SESSION["sesion"]=$var["pass"];
+      $_SESSION["id"]=$var["id"];
+      header("Location: main.php?id=".$var["id"]);
     }
-  return $final;
+    else
+      header("Location: index.php");
+    break;
+    case 'registro':
+    $c->newUser($_REQUEST["user"],$_REQUEST["pass"]);
+    $var=$c->newSecreto($_REQUEST["secreto"],$_REQUEST["key"],$c->login($_REQUEST["user"],$_REQUEST["pass"]));
+    if($var!=null)
+      header("Location: index.php");
+    else
+      header("Location: registro.php");
+    break;
+    case 'main':
+    $secret=$c->getSecreto($_REQUEST["id"]);
+    echo $c->desencriptar($secret["secreto"],$_REQUEST["secret"]);
+    break;
+    case 'cerrar':
+    session_destroy();
+    break;
+
+    default:
+      header("Location: index.php");
+      break;
   }
 
-  // Funcion de desencriptacion simetrica
-  function desencriptar($secreto,$llave){
-    $hash=sha1($llave);
-    $final="";
-    $array=split(" ", $secreto);
-    
-    for($i=0;$i<count($array);$i++){
-      $aux1=ord($hash[$i]);
-      $r=(int)$array[$i];
-      $aux2=($r/$aux1)-$aux1;
-      $final.=chr($aux2);
-    }
-    return $final;
+  function vardumping($var){
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
   }
 ?>

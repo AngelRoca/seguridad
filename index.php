@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,9 +16,10 @@
       <h1>Bienvenido...</h1>
       <div class="box">
         <form action="functions.php" method="post">
+          <input type="hidden" value="login" name="form">
           <input type="text" name="user" placeholder="Usuario">
-          <input type="password" name"pass" placeholder="Contraseña">
-          <button type="button" class="btn btn-lg btn-primary">Entrar</button>
+          <input type="password" name="pass" placeholder="Contraseña">
+          <input type="submit" class="btn btn-lg btn-primary" value="Entrar">
         </form>
         <a href="registro.php">Registrate...</a>
       </div>
